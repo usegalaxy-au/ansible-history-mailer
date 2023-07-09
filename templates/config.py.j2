@@ -1,0 +1,39 @@
+HISTORIES_WARN_DAYS={{ history_mailer_warn_days }}
+HISTORIES_DELETE_DAYS={{ history_mailer_delete_days }}
+EMAIL_DAYS_THRESHOLD={{ history_mailer_email_days_threshold }}
+PURGE_DAYS_THRESHOLD={{ history_mailer_purge_days_threshold }}
+
+STAGING_GALAXY_API_KEY="{{ history_mailer_staging_galaxy_api_key|d('') }}"
+STAGING_GALAXY_BASEURL="{% if history_mailer_staging_galaxy_url is defined %}{{ history_mailer_staging_galaxy_url }}/api/{% else %}{% endif %}"
+STAGING_HIST_VIEW_BASE="{% if history_mailer_staging_galaxy_url is defined %}{{ history_mailer_staging_galaxy_url }}/histories/view?id={% else %}{% endif %}"
+PROD_GALAXY_API_KEY="{{ history_mailer_galaxy_api_key }}"
+PROD_GALAXY_BASEURL="{{ history_mailer_galaxy_url }}/api/"
+PROD_HIST_VIEW_BASE="{{ history_mailer_galaxy_url }}/histories/view?id="
+
+STAGING_LOCAL_DB="sqlite:///{{ history_mailer_staging_local_db_file }}"
+PROD_LOCAL_DB="sqlite:///{{ history_mailer_production_local_db_file }}"
+
+GALAXY_HISTORIES_EP="histories"
+GALAXY_USER_EP="users"
+GALAXY_DEFAULT_KEYS="id,name,user_id,update_time,size"
+GALAXY_GROUP_EP="groups/"
+GALAXY_GROUP_USER_EP="/users"
+GALAXY_KEEPLIST_GROUP="{{ history_mailer_galaxy_keeplist_group|d('') }}"
+
+# Postal settings
+{% if history_mailer_use_postal %}
+MAIL_API="{{ history_mailer_postal_api_key }}"
+MAIL_BASEURL="{{ history_mailer_postal_base_url }}"
+{% endif %}
+MAIL_FROM=""  # "Galaxy <no-reply@{{ history_mailer_galaxy_url }}>"
+MAIL_REPLYTO=""
+MAIL_SENDMESSAGE="send/message"
+MAIL_SUBJECT_WARNING="Galaxy: Upcoming Deletion Notification"
+MAIL_SUBJECT_DELETION="Galaxy: Deletion Notification"
+
+# Slack settings
+SLACK_TOKEN="{{ history_mailer_slack_token|d('') }}"
+SLACK_ALERT_CHANNEL="{{ history_mailer_slack_alert_channel|d('') }}"
+SLACK_LOG_CHANNEL="{{ history_mailer_slack_log_channel|d('') }}"
+SLACK_ALERT_MENTIONS="{{ history_mailer_alert_mentions|d('') }}"
+SLACK_LOG_MENTIONS="{{ history_mailer_log_mentions|d('') }}"

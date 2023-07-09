@@ -1,0 +1,16 @@
+history_mailer_user: ubuntu
+history_mailer_path: "/home/{{ history_mailer_user }}/history_mailer"
+history_mailer_venv: "{{ history_mailer_path }}/venv"
+history_mailer_repo: https://github.com/usegalaxy-au/history-mailer.git
+history_mailer_commit_id: main
+
+# History mailer configuration
+history_mailer_warn_days: 365
+history_mailer_delete_days: 385
+history_mailer_email_days_threshold: 6
+history_mailer_purge_days_threshold: 6
+
+history_mailer_staging_local_db_file: staging_hm.sqlite
+history_mailer_production_local_db_file: prod_hm.sqlite
+
+history_mailer_use_postal: false # Must be true for history mailer to work
