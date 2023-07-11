@@ -1,11 +1,14 @@
 ---
 - block:
-  - name: Ensure history mailer directory exists
+  - name: Ensure history mailer directories exist
     file:
       state: directory
-      path: "{{ history_mailer_path }}"
+      path: "{{ item }}"
       owner: "{{ history_mailer_user }}"
       group: "{{ history_mailer_user }}"
+    with_items:
+      - "{{ history_mailer_path }}"
+      - "{{ history_mailer_job_script_path }}"
   - name: Clone history mailer git repo
     git:
       dest: "{{ history_mailer_path }}"
@@ -21,27 +24,42 @@
     template:
       src: config.py.j2
       dest: "{{ history_mailer_path }}/config.py"
+  - name: Set up local databases
+    include_tasks: database.yml
+    loop:
+      - "{{ history_mailer_staging_local_db_file }}"
+      - "{{ history_mailer_production_local_db_file }}"
+    loop_control:
+      loop_var: hm_db_filename
+  - name: Set up cron jobs
+    include_tasks: cron.yml
+    loop: "{{ history_mailer_cron_jobs }}"
+    loop_control:
+      loop_var: hm_cron_entry
+    when: history_mailer_cron_jobs is defined
+
+
   # Initialise databases if they do not exist
-  - name: Stat production database
-    stat:
-      path: "{{ history_mailer_path }}/{{ history_mailer_production_local_db_file }}"
-    register: prod_db_stat
-  - name: Initialise db
-    command:
-      cmd: "{{ history_mailer_venv }}/bin/alembic current"
-      chdir: "{{ history_mailer_path }}"
-    environment:
-      VIRTUAL_ENV: "{{ history_mailer_venv }}"
-      HISTORY_MAILER_DB: "{{ history_mailer_production_local_db_file }}"
-    when: not prod_db_stat.stat.exists
-  - name: Run migrations
-    command:
-      cmd: "{{ history_mailer_venv }}/bin/alembic upgrade head"
-      chdir: "{{ history_mailer_path }}"
-    environment:
-      VIRTUAL_ENV: "{{ history_mailer_venv }}"
-      HISTORY_MAILER_DB: "{{ history_mailer_production_local_db_file }}"
-    when: not prod_db_stat.stat.exists
+  # - name: Stat production database
+  #   stat:
+  #     path: "{{ history_mailer_path }}/{{ history_mailer_production_local_db_file }}"
+  #   register: prod_db_stat
+  # - name: Initialise db
+  #   command:
+  #     cmd: "{{ history_mailer_venv }}/bin/alembic current"
+  #     chdir: "{{ history_mailer_path }}"
+  #   environment:
+  #     VIRTUAL_ENV: "{{ history_mailer_venv }}"
+  #     HISTORY_MAILER_DB: "{{ history_mailer_production_local_db_file }}"
+  #   when: not prod_db_stat.stat.exists
+  # - name: Run migrations
+  #   command:
+  #     cmd: "{{ history_mailer_venv }}/bin/alembic upgrade head"
+  #     chdir: "{{ history_mailer_path }}"
+  #   environment:
+  #     VIRTUAL_ENV: "{{ history_mailer_venv }}"
+  #     HISTORY_MAILER_DB: "{{ history_mailer_production_local_db_file }}"
+  #   when: not prod_db_stat.stat.exists
 
   become: true
   become_user: "{{ history_mailer_user }}"

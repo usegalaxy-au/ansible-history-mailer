@@ -1,0 +1,20 @@
+- name: Write job script
+  copy:
+    dest: "{{ history_mailer_job_script_path }}/{{ hm_cron_entry.name }}.sh"
+    content: |
+        {{ history_mailer_venv }}/bin/python \
+        {{ history_mailer_path }}/history_mailer.py \
+        {% if hm_cron_entry.options|d('') %}--{{ hm_cron_entry.options.join(' --') }}{% endif %}
+    
+
+- name: Set up history mailer cron job
+  cron:
+    disabled: "{{ not history_mailer_enable_cron_jobs }}"
+    state: "{{ hm_cron_entry.state|d('present') }}"
+    name: "history_mailer: {{ hm_cron_entry.name }}" # TODO: name is optional  
+    user: "{{ history_mailer_user }}"
+    weekday: "{{ hm_cron_entry.weekday }}" # TODO: Sanity check of cron settings?
+    hour: "{{ hm_cron_entry.hour }}"
+    minute: "{{ hm_cron_entry.minute|d('00') }}" # TODO: defaults for these
+    job: "bash {{ history_mailer_job_script_path }}/{{ hm_cron_entry.name }}.sh"
+        
