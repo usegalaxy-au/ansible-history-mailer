@@ -25,12 +25,14 @@ history_mailer_cron_jobs:
   weekday: "1"
   hour: "12"
   options:
+    - production
     - warn
     - delete
 - name: purge_histories
   weekday: "0"
   hour: "12"
   options:
+    - production
     - purge
 ```
 
