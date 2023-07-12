@@ -28,7 +28,7 @@ history_mailer_cron_jobs:
     - warn
     - delete
 - name: purge_histories
-  weekday: 0
+  weekday: "0"
   hour: "12"
   options:
     - purge
