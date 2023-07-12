@@ -7,23 +7,23 @@
       owner: "{{ history_mailer_user }}"
       group: "{{ history_mailer_user }}"
     with_items:
-      - "{{ history_mailer_path }}"
-      - "{{ history_mailer_job_script_path }}"
+      - "{{ history_mailer_dir }}"
+      - "{{ history_mailer_job_script_dir }}"
   - name: Clone history mailer git repo
     git:
-      dest: "{{ history_mailer_path }}"
+      dest: "{{ history_mailer_dir }}"
       repo: "{{ history_mailer_repo }}"
       version: "{{ history_mailer_commit_id }}"
   - name: Install dependencies
     pip:
-      requirements: "{{ history_mailer_path }}/requirements.txt"
+      requirements: "{{ history_mailer_dir }}/requirements.txt"
       virtualenv: "{{ history_mailer_venv }}"
     environment:
       VIRTUAL_ENV: "{{ history_mailer_venv }}"
   - name: Template config file
     template:
       src: config.py.j2
-      dest: "{{ history_mailer_path }}/config.py"
+      dest: "{{ history_mailer_dir }}/config.py"
   - name: Set up local databases
     include_tasks: database.yml
     loop:
@@ -42,12 +42,12 @@
   # Initialise databases if they do not exist
   # - name: Stat production database
   #   stat:
-  #     path: "{{ history_mailer_path }}/{{ history_mailer_production_local_db_file }}"
+  #     path: "{{ history_mailer_dir }}/{{ history_mailer_production_local_db_file }}"
   #   register: prod_db_stat
   # - name: Initialise db
   #   command:
   #     cmd: "{{ history_mailer_venv }}/bin/alembic current"
-  #     chdir: "{{ history_mailer_path }}"
+  #     chdir: "{{ history_mailer_dir }}"
   #   environment:
   #     VIRTUAL_ENV: "{{ history_mailer_venv }}"
   #     HISTORY_MAILER_DB: "{{ history_mailer_production_local_db_file }}"
@@ -55,7 +55,7 @@
   # - name: Run migrations
   #   command:
   #     cmd: "{{ history_mailer_venv }}/bin/alembic upgrade head"
-  #     chdir: "{{ history_mailer_path }}"
+  #     chdir: "{{ history_mailer_dir }}"
   #   environment:
   #     VIRTUAL_ENV: "{{ history_mailer_venv }}"
   #     HISTORY_MAILER_DB: "{{ history_mailer_production_local_db_file }}"

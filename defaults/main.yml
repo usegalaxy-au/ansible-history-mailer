@@ -1,7 +1,8 @@
 history_mailer_user: ubuntu
-history_mailer_path: "/home/{{ history_mailer_user }}/history_mailer"
-history_mailer_venv: "{{ history_mailer_path }}/venv"
-history_mailer_job_script_path: "{{ history_mailer_path }}/jobs"
+history_mailer_dir: "/home/{{ history_mailer_user }}/history_mailer"
+history_mailer_venv: "{{ history_mailer_dir }}/venv"
+history_mailer_job_script_dir: "{{ history_mailer_dir }}/jobs"
+history_mailer_log_dir: "{{ history_mailer_dir }}/logs"
 history_mailer_repo: https://github.com/usegalaxy-au/history-mailer.git
 history_mailer_commit_id: main
 
