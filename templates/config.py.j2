@@ -1,3 +1,7 @@
+##
+## This file is managed by Ansible.  ALL CHANGES WILL BE OVERWRITTEN.
+##
+
 HISTORIES_WARN_DAYS={{ history_mailer_warn_days }}
 HISTORIES_DELETE_DAYS={{ history_mailer_delete_days }}
 EMAIL_DAYS_THRESHOLD={{ history_mailer_email_days_threshold }}
@@ -30,6 +34,9 @@ MAIL_REPLYTO=""
 MAIL_SENDMESSAGE="send/message"
 MAIL_SUBJECT_WARNING="Galaxy: Upcoming Deletion Notification"
 MAIL_SUBJECT_DELETION="Galaxy: Deletion Notification"
+MAIL_TEMPLATE_WARNING="{{ history_mailer_mail_template_warning|d('templates/email_warning.html') }}"
+MAIL_TEMPLATE_DELETION="{{ history_mailer_mail_template_deletion|d('templates/email_deletion.html') }}"
+
 
 # Slack settings
 SLACK_TOKEN="{{ history_mailer_slack_token|d('') }}"
