@@ -10,6 +10,7 @@
       - "{{ history_mailer_dir }}"
       - "{{ history_mailer_job_script_dir }}"
       - "{{ history_mailer_log_dir }}"
+      - "{{ history_mailer_email_template_dir }}"
   - name: Clone history mailer git repo
     git:
       dest: "{{ history_mailer_code_dir }}"
@@ -25,6 +26,11 @@
     template:
       src: config.py.j2
       dest: "{{ history_mailer_code_dir }}/config.py"
+  - name: Copy history mailer files
+    copy:
+      src: "{{ item.src }}"
+      dest: "{{ item.dest }}"
+    with_items: "{{ history_mailer_files }}"
   - name: Set up local databases
     include_tasks: database.yml
     loop:
