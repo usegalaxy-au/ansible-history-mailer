@@ -17,7 +17,7 @@
       version: "{{ history_mailer_commit_id }}"
   - name: Install dependencies
     pip:
-      requirements: "{{ history_mailer_dir }}/requirements.txt"
+      requirements: "{{ history_mailer_code_dir }}/requirements.txt"
       virtualenv: "{{ history_mailer_venv }}"
     environment:
       VIRTUAL_ENV: "{{ history_mailer_venv }}"

@@ -1,11 +1,11 @@
   - name: Stat database
     stat:
-      path: "{{ history_mailer_dir }}/{{ hm_db_filename }}"
+      path: "{{ history_mailer_code_dir }}/{{ hm_db_filename }}"
     register: hm_db_stat
   - name: Initialise db
     command:
       cmd: "{{ history_mailer_venv }}/bin/alembic current"
-      chdir: "{{ history_mailer_dir }}"
+      chdir: "{{ history_mailer_code_dir }}"
     environment:
       VIRTUAL_ENV: "{{ history_mailer_venv }}"
       HISTORY_MAILER_DB: "{{ hm_db_filename }}"
@@ -13,7 +13,7 @@
   - name: Run migrations
     command:
       cmd: "{{ history_mailer_venv }}/bin/alembic upgrade head"
-      chdir: "{{ history_mailer_dir }}"
+      chdir: "{{ history_mailer_code_dir }}"
     environment:
       VIRTUAL_ENV: "{{ history_mailer_venv }}"
       HISTORY_MAILER_DB: "{{ hm_db_filename }}"
