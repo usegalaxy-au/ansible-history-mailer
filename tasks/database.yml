@@ -18,3 +18,4 @@
       VIRTUAL_ENV: "{{ history_mailer_venv }}"
       HISTORY_MAILER_DB: "{{ hm_db_filename }}"
     when: not hm_db_stat.stat.exists
+ # TODO: There should be something here for running migrations when the database does exist
