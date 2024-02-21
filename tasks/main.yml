@@ -9,6 +9,7 @@
     with_items:
       - "{{ history_mailer_dir }}"
       - "{{ history_mailer_job_script_dir }}"
+      - "{{ history_mailer_log_dir }}"
   - name: Clone history mailer git repo
     git:
       dest: "{{ history_mailer_dir }}"
