@@ -37,29 +37,5 @@
     loop_control:
       loop_var: hm_cron_entry
     when: history_mailer_cron_jobs is defined
-
-
-  # Initialise databases if they do not exist
-  # - name: Stat production database
-  #   stat:
-  #     path: "{{ history_mailer_dir }}/{{ history_mailer_production_local_db_file }}"
-  #   register: prod_db_stat
-  # - name: Initialise db
-  #   command:
-  #     cmd: "{{ history_mailer_venv }}/bin/alembic current"
-  #     chdir: "{{ history_mailer_dir }}"
-  #   environment:
-  #     VIRTUAL_ENV: "{{ history_mailer_venv }}"
-  #     HISTORY_MAILER_DB: "{{ history_mailer_production_local_db_file }}"
-  #   when: not prod_db_stat.stat.exists
-  # - name: Run migrations
-  #   command:
-  #     cmd: "{{ history_mailer_venv }}/bin/alembic upgrade head"
-  #     chdir: "{{ history_mailer_dir }}"
-  #   environment:
-  #     VIRTUAL_ENV: "{{ history_mailer_venv }}"
-  #     HISTORY_MAILER_DB: "{{ history_mailer_production_local_db_file }}"
-  #   when: not prod_db_stat.stat.exists
-
   become: true
   become_user: "{{ history_mailer_user }}"
