@@ -12,7 +12,7 @@
       - "{{ history_mailer_log_dir }}"
   - name: Clone history mailer git repo
     git:
-      dest: "{{ history_mailer_dir }}"
+      dest: "{{ history_mailer_code_dir }}"
       repo: "{{ history_mailer_repo }}"
       version: "{{ history_mailer_commit_id }}"
   - name: Install dependencies
@@ -24,7 +24,7 @@
   - name: Template config file
     template:
       src: config.py.j2
-      dest: "{{ history_mailer_dir }}/config.py"
+      dest: "{{ history_mailer_code_dir }}/config.py"
   - name: Set up local databases
     include_tasks: database.yml
     loop:

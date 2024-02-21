@@ -3,7 +3,7 @@
     dest: "{{ history_mailer_job_script_dir }}/{{ hm_cron_entry.name }}.sh"
     content: |
         {{ history_mailer_venv }}/bin/python \
-        {{ history_mailer_dir }}/history_mailer.py \
+        {{ history_mailer_code_dir }}/history_mailer.py \
         {% if hm_cron_entry.options|d('') %}--{{ hm_cron_entry.options.join(' --') }}{% endif %} \
         > {{ history_mailer_log_dir }}/{{ hm_cron_entry.name }}_`date +%Y%m%d`.log 2>&1
 
