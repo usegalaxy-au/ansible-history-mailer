@@ -1,0 +1,6 @@
+---
+galaxy_info:
+  role_name: history_mailer
+  namespace: usegalaxy-au
+  author: Catherine Bromhead
+  description: Set up history mailer (https://github.com/usegalaxy-au/history-mailer) written by Thom Cuddihy and Simon Gladman to manage histories on a Galaxy instance.
